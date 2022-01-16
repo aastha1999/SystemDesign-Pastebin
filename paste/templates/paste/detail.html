@@ -1,0 +1,12 @@
+{% extends 'base.html' %} {% block content %}
+<div id="detail_page" class="nes-container with-title ">
+    <a style="float: right;" class="nes-btn is-primary" href="{% url 'paste:raw_content' slug=slug %}">Raw!</a>
+    <p class="title">{{ object.title }}</p>
+    <b>Creation date & time:</b>{{ object.date_time }}
+    <pre class="code">
+    <code>{{ object.content }}</code>
+  </pre>
+</div>
+
+
+{% endblock %}

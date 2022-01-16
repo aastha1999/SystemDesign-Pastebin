@@ -1,0 +1,96 @@
+.header {
+    padding: .1rem;
+    text-align: center;
+    background: blueviolet;
+    color: white;
+    font-size: .8rem;
+    display: flex;
+}
+
+.header_align {
+    text-align: right;
+    left: 2em;
+    top: 1rem;
+    color: white;
+    display: flex;
+}
+
+.code {
+    font-size: 11px;
+    display: flex;
+}
+
+.logo {
+    width: 25em;
+    padding-top: 2em;
+    display: flex;
+}
+
+.github-link {
+    display: none;
+    display: flex;
+}
+
+#index_page {
+    padding: 1rem;
+    margin-top: 2rem;
+    margin-left: 2rem;
+    margin-right: 2rem;
+    /* width: 40rem; */
+    display: flex;
+}
+
+#detail_page {
+    margin: 1rem;
+    display: flex;
+}
+
+#id_content {
+    width: 20rem;
+    /* height: 18rem; */
+    display: flex;
+}
+
+#id_title {
+    width: 17rem;
+    font-size: .5rem;
+    display: flex;
+}
+
+#id_comment_text {
+    width: 15rem;
+    display: flex;
+}
+
+#comment_create {
+    margin: 3rem;
+    text-align: center;
+    display: flex;
+}
+
+
+/* } */
+
+
+/* body {
+    font-size: 15px;
+    cursor: default;
+    background-color: #1977e3;
+    header: linear-gradient(to right, #1977e3, #4a90e2);
+}
+
+.header {
+    background: linear-gradient(to right, #1977e3, #4a90e2);
+} */
+
+
+/* @media only screen and (max-width: 60rem) { */
+
+
+/* body {
+    font-size: 15px;
+    block-size: 60rem;
+    cursor: default;
+    display: flex;
+    background-color: #1977e3;
+} */

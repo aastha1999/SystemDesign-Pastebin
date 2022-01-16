@@ -1,0 +1,11 @@
+{% extends 'base.html' %} {% block content %}
+<div id="index_page" class="nes-container">
+    <form method="POST" action="">{% csrf_token %} {% for field in form %}
+        <div class="container">
+            {{ field.errors }} {{ field.label_tag }}<br> {{ field }}
+        </div>
+        {% endfor %}
+        <br>
+        <button type="submit" class="nes-btn is-primary">Paste!</button>
+</div>
+{% endblock %}
