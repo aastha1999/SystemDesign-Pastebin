@@ -1,7 +1,7 @@
 from django.urls import path
 from django.conf.urls import include
 
-from .views import  CreateNewPaste, Detail, Index,  RawContent, GetUrl, find_url, GetRawPaste, deleteUrl
+from .views import  CreateNewPaste, Detail, Index,  RawContent, GetUrl, find_url, GetRawPaste, deleteUrl, AllPastes
 from paste.api.views import api_detail_paste_view
 
 from accounts.api_account.views import registration_view
@@ -14,6 +14,7 @@ app_name = "paste"
 urlpatterns = [
     path("api/get_content/", api_detail_paste_view, name="get_content"),
 
+    # path("allpastes/", AllPastes.as_view(), name="all_pastes"),
     path('api/account/register/', registration_view, name="register"),
 
     path('api/account/login/', registration_view, name="login"),
@@ -27,11 +28,12 @@ urlpatterns = [
     # path("find_url/<str:title>/<str:content>/", find_url.as_view(), name="url_link"),
 
     # path("shortenUrl", get_url.as_view(), name="get_url"),
-    path("p/shortenUrl/", GetUrl.as_view(), name="get_url"),
-    path("p/delete/", deleteUrl.as_view(), name="get_url"),
+    path("p/shortenUrl/", GetUrl.as_view(), name="shorten_url"),
+    path("p/delete/", deleteUrl.as_view(), name="delete"),
     
-    path("p/create/", CreateNewPaste.as_view(), name="get_url"),
-    path("p/get_content/", GetRawPaste.as_view(), name="get_url")
+    path("p/create/", CreateNewPaste.as_view(), name="create"),
+    path("p/get_content/", GetRawPaste.as_view(), name="get_content"),
+    path("p/allpastes/", AllPastes.as_view(), name="all_pastes")
 ]
 
 
