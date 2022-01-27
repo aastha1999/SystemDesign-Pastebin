@@ -18,7 +18,7 @@ class Index(CreateView):
     form_class = PasteForm
 
 # @csrf_exempt
-from django.utils.decorators import method_decorator
+from django.utils.decorators import method_decorator 
 
 # @method_decorator(csrf_exempt, name='dispatch')
 class Detail(DetailView):
@@ -60,15 +60,16 @@ class CreateNewPaste(View):
         title, content = data['title'], data['content']
         pastefile = PasteFile(content=content, title=title)
         pastefile.save()
-        return HttpResponse(pastefile.get_absolute_url())
+        return HttpResponse(json.dumps(pastefile.get_absolute_url()), content_type='application/json')
 
 
 # @method_decorator(csrf_exempt, name='dispatch')
 class GetRawPaste(View):
     def get(self, request):
-        slug = request.GET['slug']
+        data = json.loads(request.body)
+        slug = data['slug']
         pastefile = PasteFile.objects.get(slug=slug)
-        return HttpResponse(pastefile.content)
+        return HttpResponse(json.dumps(pastefile.content), content_type='application/json')
 
 
 # from django.utils.decorators import method_decorator
@@ -87,10 +88,14 @@ class GetUrl(View):
             return HttpResponse(pastefile.get_absolute_url())
 
 @method_decorator(csrf_exempt, name='dispatch')
-class deleteUrl(DeleteView):
-    #  model = PasteFile
+# @action(methods=['delete'], detail=False)
+class deleteUrl(View):
      def get(self, request):
-        slug = request.DELETE['slug']
-        pastefile = PasteFile.objects.get(slug=slug)  
-        reverse_lazy(pastefile)       
-
+        data = json.loads(request.body)
+        slug = data['slug']
+        # pastefile = PasteFile.objects.filter(slug=slug).first()
+        record = PasteFile.objects.get(slug=slug)
+        record.delete()
+        # success_url = reverse_lazy(pastefile)  
+        response = json.dumps({'message': "deleted"})
+        return HttpResponse(response, content_type='application/json')
