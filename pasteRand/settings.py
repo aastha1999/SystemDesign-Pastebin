@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'jwt',
     "accounts",
     "rest_framework",
+    'django_pygments',
     'rest_framework.authtoken',
 ]
 

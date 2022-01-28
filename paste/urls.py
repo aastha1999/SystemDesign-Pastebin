@@ -13,7 +13,6 @@ app_name = "paste"
 
 urlpatterns = [
     path("api/get_content/", api_detail_paste_view, name="get_content"),
-
     # path("allpastes/", AllPastes.as_view(), name="all_pastes"),
     path('api/account/register/', registration_view, name="register"),
 
