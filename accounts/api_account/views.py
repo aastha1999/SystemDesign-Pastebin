@@ -41,11 +41,6 @@ def registration_view(request):
            data['response'] = "succefully registered a new user."
            data['email'] = account.email
            data['username'] = account.username
-        #    for user in User.objects.all():
-        #    token =   Token.objects.get_or_create(user=account)
-        #    user = get_user_model().objects.first()
-           token =   account.token
-           data['Token'] = token
         
         else:
             data = serializer.errors

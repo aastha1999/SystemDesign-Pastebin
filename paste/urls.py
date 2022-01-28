@@ -1,7 +1,7 @@
 from django.urls import path
 from django.conf.urls import include
 
-from .views import  CreateNewPaste, Detail, Index,  RawContent, GetUrl, find_url, GetRawPaste, deleteUrl, AllPastes
+from .views import  CreateNewPaste, Detail, Index,  RawContent, GetUrl, find_url, GetRawPaste, deleteUrl, AllPastes,GetUser,GetToken
 from paste.api.views import api_detail_paste_view
 
 from accounts.api_account.views import registration_view
@@ -33,6 +33,8 @@ urlpatterns = [
     
     path("p/create/", CreateNewPaste.as_view(), name="create"),
     path("p/get_content/", GetRawPaste.as_view(), name="get_content"),
+    path("p/getToken/", GetToken.as_view(), name="get_user"),
+    path("p/getUser/", GetUser.as_view(), name="get_user"),
     path("p/allpastes/", AllPastes.as_view(), name="all_pastes")
 ]
 
