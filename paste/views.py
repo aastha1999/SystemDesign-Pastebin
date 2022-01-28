@@ -3,13 +3,64 @@ from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView, DetailView, View, DeleteView
 from django.views.decorators.csrf import csrf_exempt
 import json
-
-
+from datetime import datetime
+from datetime import timedelta
+from accounts.models import User
+from  django.contrib.auth.hashers import check_password
 # from .forms import CommentForm, PasteForm
 # from .models import Comment, PasteFile
 from .forms import  PasteForm
 from .models import PasteFile
+import jwt
+from django.conf import settings
 
+# https://medium.com/@sebastianojeda/user-authentication-with-django-rest-framework-and-json-web-tokens-747ea4d84b9f
+# https://stackoverflow.com/questions/47407536/how-to-store-jwt-token-in-db-with-django-rest-framework
+def get_user_for_token(token):
+        try:
+            data = jwt.decode(token, settings.SECRET_KEY)
+        except jwt.DecodeError:
+            # if(data==None):
+                raise Exception("Invalid token")
+
+        user = User.objects.get(pk=data['id'])
+        if(user==None):
+            raise Exception("Invalide token")
+
+        else:
+            return user    
+        # model_cls = get_user_model()
+
+            # try:
+                # except (User.DoesNotExist, KeyError):
+                #     raise Exception("Invalid token")
+                # else:
+                #     return user
+
+def generate_jwt_token(username, email,password):
+        """
+        Generates a JSON Web Token that stores this user's ID and has an expiry
+        date set to 60 days into the future.
+        """
+        user = User.objects.filter(email=email, username=username).first()
+        if(user==None):
+            raise Exception("User doesn't exists")
+        encoded = user.password
+        flag = check_password(password,encoded)
+        if(flag==False):
+            raise Exception("wrong Password")
+        dt = datetime.now() + timedelta(days=60)
+
+        data = {
+        'id': str(user.id),
+        }
+        
+        return jwt.encode(data, settings.SECRET_KEY).decode()
+        # token = jwt.encode({
+        #     'id': user.pk,
+        #     'exp': dt.utcfromtimestamp(dt.timestamp())
+        # }, settings.SECRET_KEY, algorithm='HS256')
+        # return token
 
 class Index(CreateView):
     model = PasteFile
@@ -69,6 +120,25 @@ class GetRawPaste(View):
         pastefile = PasteFile.objects.get(slug=slug)
         return HttpResponse(json.dumps(pastefile.content), content_type='application/json')
 
+class GetUser(View):
+    def get(self, request):
+        data = json.loads(request.body)
+        token = data['token']
+        # data = json.loads(request.body)
+        # token = request.body
+        user = get_user_for_token(token)
+        return HttpResponse(json.dumps(user.username), content_type='application/json')
+
+class GetToken(View):
+    def get(self, request):
+        data = json.loads(request.body)
+        username = data['username']
+        email = data['email']
+        password = data['password']
+        # data = json.loads(request.body)
+        # token = request.body
+        token = generate_jwt_token(username,email,password)
+        return HttpResponse(json.dumps(token), content_type='application/json')
 
 # from django.utils.decorators import method_decorator
 @method_decorator(csrf_exempt, name='dispatch')
