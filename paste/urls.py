@@ -12,7 +12,6 @@ from rest_framework.authtoken.views import obtain_auth_token
 app_name = "paste"
 
 urlpatterns = [
-    urlpatterns = [
     # path("api/get_content/", api_detail_paste_view, name="get_content"),
 
     # Takes email, username and password as the input and will register that user in db if it diesn't exit already.
