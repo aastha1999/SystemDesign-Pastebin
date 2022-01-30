@@ -12,29 +12,64 @@ from rest_framework.authtoken.views import obtain_auth_token
 app_name = "paste"
 
 urlpatterns = [
-    path("api/get_content/", api_detail_paste_view, name="get_content"),
-    # path("allpastes/", AllPastes.as_view(), name="all_pastes"),
-    path('api/account/register/', registration_view, name="register"),
-
-    path('api/account/login/', registration_view, name="login"),
-
+    # homepage
     path("", Index.as_view(), name="index"),
-    path("<str:slug>/", Detail.as_view(), name="detail"),
-    path('api/get_content/',include('paste.api.urls','paste_api')),
-    # path("get_url/<str:content>/<str:title>/",Detail.as_view(),name="Post"),
-    # path("p/<str:title>/", get_url.as_view(), name="thread"),
-    path("raw/<str:slug>/", RawContent.as_view(), name="raw_content"),
-    # path("find_url/<str:title>/<str:content>/", find_url.as_view(), name="url_link"),
 
-    # path("shortenUrl", get_url.as_view(), name="get_url"),
-    path("p/shortenUrl/", GetUrl.as_view(), name="shorten_url"),
-    path("p/delete/", deleteUrl.as_view(), name="delete"),
+
+    ## API calls
+    path('api/get_content/', api_detail_paste_view, name='get_content'),
+    path('api/account/register/', registration_view, name='register'),
+    path('api/account/login/', registration_view, name='login'),
+    # path('api/get_content/',include('paste.api.urls','paste_api')),
+
+
+    # get slug details
+    # input: slug
+    path('<str:slug>/', Detail.as_view(), name='detail'),
+
+
+    # get raw content of slug
+    # input: slug
+    # output: PasteFile contents
+    path('raw/<str:slug>/', RawContent.as_view(), name='raw_content'),
+
+
+    # create URL
+    # input: content and title
+    # output: slug
+    # logic: if title & content already exists, return existing slug, else return new slug
+    path('p/createURL/', GetUrl.as_view(), name='create_url'),
+
+
+    # create URL
+    # input: title, content
+    # output: slug
+    path('p/create/', CreateNewPaste.as_view(), name='create'),
+
+
+    # delete an existing slug
+    # input: slug
+    path('p/delete/', deleteUrl.as_view(), name='delete'),
+
+
+    # get contents of an existing slug
+    # input: slug
+    # output: PasteFile contents
+    path('p/get_content/', GetRawPaste.as_view(), name='get_content'),
+
+
+    # get token of an existing user
+    # Input: 
+    # Output: token ID
+    path('p/getToken/', GetToken.as_view(), name='get_user'),
+
     
-    path("p/create/", CreateNewPaste.as_view(), name="create"),
-    path("p/get_content/", GetRawPaste.as_view(), name="get_content"),
-    path("p/getToken/", GetToken.as_view(), name="get_user"),
-    path("p/getUser/", GetUser.as_view(), name="get_user"),
-    path("p/allpastes/", AllPastes.as_view(), name="all_pastes")
+    # get user details
+    # input: 
+    # Output: 
+    path('p/getUser/', GetUser.as_view(), name='get_user'),
+
+
+    # get all pastes from the database
+    path('p/allpastes/', AllPastes.as_view(), name='all_pastes')
 ]
-
-
