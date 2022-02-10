@@ -11,6 +11,13 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+import dotenv # <- New
+
+# Add .env variables anywhere before SECRET_KEY
+dotenv_file = os.path.join(BASE_DIR, ".env")
+if os.path.isfile(dotenv_file):
+    dotenv.load_dotenv(dotenv_file)
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -20,7 +27,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "w*h4mridlu8trrva!$ygkzar#j$6a+fv%o5vk6er-^9v*bo=c&"
+SECRET_KEY = os.environ['SECRET_KEY']
+AWS_PASSWORD = os.environ['AWS_PASSWORD']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -90,8 +98,12 @@ WSGI_APPLICATION = "pasteRand.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
+    'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    'NAME': 'pasterand',
+    'USER': 'ashutosh',
+    'PASSWORD': AWS_PASSWORD,
+    'HOST': 'database-1.cx9ghxv0lhha.ap-south-1.rds.amazonaws.com',
+    'PORT': '5432',
     }
 }
 

@@ -134,4 +134,7 @@ pyvenv.cfg
 pip-selfcheck.json
 
 
+# env
+.env
+
 # End of https://www.gitignore.io/api/python
