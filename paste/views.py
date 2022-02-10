@@ -146,11 +146,13 @@ class GetUrl(View):
     def post(self, request):
         data = json.loads(request.body)
         title, content = data['title'], data['content']
+        if 'custom_url' in data:
+            custom_url = data['custom_url']
         if request.method == "POST":
             try:
                 pastefile = PasteFile.objects.filter(content=content, title=title).first()
             except:
-                pastefile = PasteFile(content=content, title=title)
+                pastefile = PasteFile(content=content, title=title, slug=custom_url)
                 pastefile.save()
             
             return HttpResponse(pastefile.get_absolute_url())

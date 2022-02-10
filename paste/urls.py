@@ -59,14 +59,14 @@ urlpatterns = [
 
 
     # get token of an existing user
-    # Input: 
-    # Output: token ID
+    # input: 
+    # output: token ID
     path('p/getToken/', GetToken.as_view(), name='get_user'),
 
     
     # get user details
     # input: 
-    # Output: 
+    # output: 
     path('p/getUser/', GetUser.as_view(), name='get_user'),
 
 

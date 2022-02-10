@@ -19,6 +19,7 @@ class PasteFile(models.Model):
     content = models.TextField()
     slug = models.SlugField(unique=True)
     date_time = models.DateTimeField(auto_now_add=True, blank=True)
+    custom_slug = models.BooleanField()
     # email = models.EmailField(unique=True)
     # username = models.TextField(unique=True)
     # password = models.TextField()
