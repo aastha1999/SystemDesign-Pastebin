@@ -61,6 +61,12 @@ def generate_jwt_token(username, email,password):
         #     'exp': dt.utcfromtimestamp(dt.timestamp())
         # }, settings.SECRET_KEY, algorithm='HS256')
         # return token
+def token_auth(token):
+    user = get_user_for_token(token)
+    if(user!=None):
+        return True
+    else:
+         raise Exception("User doesn't exist")  
 
 class Index(CreateView):
     model = PasteFile
@@ -106,6 +112,11 @@ class find_url(DetailView):
 class CreateNewPaste(View):
     def post(self, request):
         data = json.loads(request.body)
+        token = data['token']
+        if(token==None):
+            raise Exception("Enter the token for user authentication")
+
+        flag = token_auth(token)    
         title, content = data['title'], data['content']
         pastefile = PasteFile(content=content, title=title)
         pastefile.save()
@@ -116,9 +127,14 @@ class CreateNewPaste(View):
 class GetRawPaste(View):
     def get(self, request):
         data = json.loads(request.body)
+        token = data['token']
+        if(token==None):
+            raise Exception("Enter the token for user authentication")
+
+        flag = token_auth(token)    
         slug = data['slug']
         pastefile = PasteFile.objects.get(slug=slug)
-        return HttpResponse(json.dumps(pastefile.content), content_type='application/json')
+        return HttpResponse(pastefile)
 
 class GetUser(View):
     def get(self, request):
@@ -145,6 +161,11 @@ class GetToken(View):
 class GetUrl(View):
     def post(self, request):
         data = json.loads(request.body)
+        token = data['token']
+        if(token==None):
+            raise Exception("Enter the token for user authentication")
+
+        flag = token_auth(token)    
         title, content = data['title'], data['content']
         if 'custom_url' in data:
             custom_url = data['custom_url']
@@ -162,6 +183,11 @@ class GetUrl(View):
 class deleteUrl(View):
      def get(self, request):
         data = json.loads(request.body)
+        token = data['token']
+        if(token==None):
+            raise Exception("Enter the token for user authentication")
+
+        flag = token_auth(token)    
         slug = data['slug']
         # pastefile = PasteFile.objects.filter(slug=slug).first()
         record = PasteFile.objects.get(slug=slug)

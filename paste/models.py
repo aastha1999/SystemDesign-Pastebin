@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 import uuid
-
+import json
 import socket
 from django.db import models
 from django.urls import reverse
@@ -19,7 +19,6 @@ class PasteFile(models.Model):
     content = models.TextField()
     slug = models.SlugField(unique=True)
     date_time = models.DateTimeField(auto_now_add=True, blank=True)
-    # custom_slug = models.BooleanField()
     # email = models.EmailField(unique=True)
     # username = models.TextField(unique=True)
     # password = models.TextField()
@@ -27,7 +26,8 @@ class PasteFile(models.Model):
     # host = socket.gethostname()
 
     def __str__(self):
-        return self.title
+        response = json.dumps({'title': self.title, 'Content': self.content})
+        return response
 
     def get_absolute_url(self):
         # host = socket.gethostname()
