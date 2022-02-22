@@ -205,7 +205,7 @@ class AllPastes(DetailView):
             paste_dict = {}
             paste_dict['title'] = paste.title
             paste_dict['content'] = paste.content
-            paste_dict['url'] = request.build_absolute_uri(paste.get_absolute_url())
+            paste_dict['slug'] = paste.get_absolute_url()
             paste_dict['date_time'] = paste.date_time.strftime('%Y-%m-%dT%H:%M:%S.%f')
             pastes_list.append(paste_dict)
         return HttpResponse(json.dumps(pastes_list), content_type="application/json")
