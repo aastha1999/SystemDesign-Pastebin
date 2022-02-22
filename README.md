@@ -16,7 +16,7 @@ Simple pastebin-like web application.
 ## Installation
 Clone the repository
 ```
-git clone https://github.com/furkanonder/pasteRand
+git clone https://github.com/aastha1999/SystemDesign-Pastebin
 ```
 Install the requirements:
 ```python
