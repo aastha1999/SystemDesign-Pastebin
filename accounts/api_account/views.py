@@ -24,12 +24,8 @@ def registration_view(request):
         account1 = User.objects.filter(username=username).first()
 
         if(account!=None):
-            data1 = {}
-            token  = account.token
-            data1['token'] = token
-            return Response(data1)  
-            # response = json.dumps({'Error': "Email already exists"})
-            # return HttpResponse(response, content_type='application/json')
+            response = json.dumps({'Error': "Email already exists"})
+            return HttpResponse(response, content_type='application/json')
 
         if(account1!=None):
             response = json.dumps({'Error': "Username already exists"})

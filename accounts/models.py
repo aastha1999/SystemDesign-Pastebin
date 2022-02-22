@@ -4,23 +4,24 @@ from django.db import models
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser
 )
-
+from rest_framework.response import Response
 from django.conf import settings
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
 import jwt
-
+# from .models import User
+# from  paste import custom_exceptions as exc
 from datetime import datetime
 from datetime import timedelta
 
 
 class User(AbstractBaseUser):
-    username = models.CharField(verbose_name='Username',max_length=50)
-    password = models.CharField(max_length=50,default='DEFAULT VALUE')
+    username = models.CharField(verbose_name='username',max_length=500)
+    password = models.CharField(max_length=500,default='DEFAULT VALUE')
     email = models.EmailField(
         verbose_name='email address',
-        max_length=255,
+        max_length=500,
         # unique=True,
     )
     # token = models.CharField(verbose_name='Token')
@@ -43,7 +44,7 @@ class User(AbstractBaseUser):
         return self.username
 
     def __str__(self):
-        return self.email
+        return self.username
 
     def has_perm(self, perm, obj=None):
         "Does the user have a specific permission?"
@@ -64,6 +65,23 @@ class User(AbstractBaseUser):
     def is_admin(self):
         "Is the user a admin member?"
         return self.admin
+
+
+    # @property
+    # def get_user_for_token(token):
+    #     try:
+    #         data = jwt.decode(token, settings.SECRET_KEY)
+    #     except jwt.DecodeError:
+    #         raise Exception("Invalid token")
+
+    #     # model_cls = get_user_model()
+
+    #     try:
+    #         user = User.objects.get(pk=data['id'])
+    #     except (User.DoesNotExist, KeyError):
+    #         raise Exception("Invalid token")
+    #     else:
+    #         return user
 
     @property
     def token(self):

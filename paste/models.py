@@ -15,7 +15,7 @@ from django.utils.timezone import now
 
 
 class PasteFile(models.Model):
-    title = models.CharField(max_length=50)
+    title = models.CharField(max_length=500)
     content = models.TextField()
     slug = models.SlugField(unique=True)
     date_time = models.DateTimeField(auto_now_add=True, blank=True)
