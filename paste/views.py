@@ -95,7 +95,7 @@ class RawContent(DetailView):
     def get(self, request, slug):
         paste_obj = get_object_or_404(PasteFile, slug=slug)
         context = paste_obj.content
-        return HttpResponse(json.dumps(context), content_type='application/json')
+        return HttpResponse(context, content_type='text/plain')
 
 
 class find_url(DetailView):
